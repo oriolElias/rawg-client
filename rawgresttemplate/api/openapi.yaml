@@ -1,0 +1,2984 @@
+openapi: 3.0.1
+info:
+  description: "\nThe largest open video games database.\n\n### Why build on RAWG\n\
+    - More than 350,000 games for 50 platforms including mobiles.\n- Rich metadata:\
+    \ tags, genres, developers, publishers, individual creators, official websites,\
+    \ release dates,\nMetacritic ratings.\n- Where to buy: links to digital distribution\
+    \ services\n- Similar games based on visual similarity.\n- Player activity data:\
+    \ Steam average playtime and RAWG player counts and ratings.\n- Actively developing\
+    \ and constantly getting better by user contribution and our algorithms.\n\n###\
+    \ Terms of Use\n- Free for personal use as long as you attribute RAWG as the source\
+    \ of the data and/or images and add an active\nhyperlink from every page where\
+    \ the data of RAWG is used.\n- Free for commercial use for startups and hobby\
+    \ projects with not more than 100,000 monthly active users or 500,000\npage views\
+    \ per month. If your project is larger than that, email us at [api@rawg.io](mailto:api@rawg.io)\
+    \ for\ncommercial terms.\n- No cloning. It would not be cool if you used our API\
+    \ to launch a clone of RAWG. We know it is not always easy\nto say what is a duplicate\
+    \ and what isn't. Drop us a line at [api@rawg.io](mailto:api@rawg.io) if you are\
+    \ in doubt,\nand we will talk it through.\n- You must include an API key with\
+    \ every request. The key can be obtained at https://rawg.io/apidocs.\nIf you don’\
+    t provide it, we may ban your requests.\n\n__[Read more](https://rawg.io/apidocs)__.\n"
+  title: RAWG Video Games Database API
+  version: v1.0
+servers:
+- url: https://api.rawg.io/api
+paths:
+  /creator-roles:
+    get:
+      operationId: creator-roles_list
+      parameters:
+      - description: A page number within the paginated result set.
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Number of results to return per page.
+        in: query
+        name: page_size
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/creator_roles_list_200_response'
+          description: ""
+      summary: Get a list of creator positions (jobs).
+      tags:
+      - creator-roles
+      x-accepts: application/json
+  /creators:
+    get:
+      operationId: creators_list
+      parameters:
+      - description: A page number within the paginated result set.
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Number of results to return per page.
+        in: query
+        name: page_size
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/creators_list_200_response'
+          description: ""
+      summary: Get a list of game creators.
+      tags:
+      - creators
+      x-accepts: application/json
+  /creators/{id}:
+    get:
+      operationId: creators_read
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonSingle'
+          description: ""
+      summary: Get details of the creator.
+      tags:
+      - creators
+      x-accepts: application/json
+  /developers:
+    get:
+      operationId: developers_list
+      parameters:
+      - description: A page number within the paginated result set.
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Number of results to return per page.
+        in: query
+        name: page_size
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/developers_list_200_response'
+          description: ""
+      summary: Get a list of game developers.
+      tags:
+      - developers
+      x-accepts: application/json
+  /developers/{id}:
+    get:
+      operationId: developers_read
+      parameters:
+      - description: A unique integer value identifying this Developer.
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeveloperSingle'
+          description: ""
+      summary: Get details of the developer.
+      tags:
+      - developers
+      x-accepts: application/json
+  /games:
+    get:
+      operationId: games_list
+      parameters:
+      - description: A page number within the paginated result set.
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Number of results to return per page.
+        in: query
+        name: page_size
+        schema:
+          type: integer
+      - description: Search query.
+        in: query
+        name: search
+        schema:
+          type: string
+      - description: Disable fuzziness for the search query.
+        in: query
+        name: search_precise
+        schema:
+          type: boolean
+      - description: Mark the search query as exact.
+        in: query
+        name: search_exact
+        schema:
+          type: boolean
+      - description: "Filter by parent platforms, for example: `1,2,3`."
+        in: query
+        name: parent_platforms
+        schema:
+          type: string
+      - description: "Filter by platforms, for example: `4,5`."
+        in: query
+        name: platforms
+        schema:
+          type: string
+      - description: "Filter by stores, for example: `5,6`."
+        in: query
+        name: stores
+        schema:
+          type: string
+      - description: "Filter by developers, for example: `1612,18893` or `valve-software,feral-interactive`."
+        in: query
+        name: developers
+        schema:
+          type: string
+      - description: "Filter by publishers, for example: `354,20987` or `electronic-arts,microsoft-studios`."
+        in: query
+        name: publishers
+        schema:
+          type: string
+      - description: "Filter by genres, for example: `4,51` or `action,indie`."
+        in: query
+        name: genres
+        schema:
+          type: string
+      - description: "Filter by tags, for example: `31,7` or `singleplayer,multiplayer`."
+        in: query
+        name: tags
+        schema:
+          type: string
+      - description: "Filter by creators, for example: `78,28` or `cris-velasco,mike-morasky`."
+        in: query
+        name: creators
+        schema:
+          type: string
+      - description: "Filter by a release date, for example: `2010-01-01,2018-12-31.1960-01-01,1969-12-31`."
+        in: query
+        name: dates
+        schema:
+          type: string
+      - description: "Filter by an update date, for example: `2020-12-01,2020-12-31`."
+        in: query
+        name: updated
+        schema:
+          type: string
+      - description: "Filter by platforms count, for example: `1`."
+        in: query
+        name: platforms_count
+        schema:
+          type: integer
+      - description: "Filter by a metacritic rating, for example: `80,100`."
+        in: query
+        name: metacritic
+        schema:
+          type: string
+      - description: "Exclude games from a particular collection, for example: `123`."
+        in: query
+        name: exclude_collection
+        schema:
+          type: integer
+      - description: Exclude additions.
+        in: query
+        name: exclude_additions
+        schema:
+          type: boolean
+      - description: Exclude games which have additions.
+        in: query
+        name: exclude_parents
+        schema:
+          type: boolean
+      - description: Exclude games which included in a game series.
+        in: query
+        name: exclude_game_series
+        schema:
+          type: boolean
+      - description: "Exclude stores, for example: `5,6`."
+        in: query
+        name: exclude_stores
+        schema:
+          type: string
+      - description: "Available fields: `name`, `released`, `added`, `created`, `updated`,\
+          \ `rating`, `metacritic`. You can reverse the sort order adding a hyphen,\
+          \ for example: `-released`."
+        in: query
+        name: ordering
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/games_list_200_response'
+          description: ""
+      summary: Get a list of games.
+      tags:
+      - games
+      x-accepts: application/json
+  /games/{game_pk}/additions:
+    get:
+      operationId: games_additions_list
+      parameters:
+      - in: path
+        name: game_pk
+        required: true
+        schema:
+          type: string
+      - description: A page number within the paginated result set.
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Number of results to return per page.
+        in: query
+        name: page_size
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/games_list_200_response'
+          description: ""
+      summary: "Get a list of DLC's for the game, GOTY and other editions, companion\
+        \ apps, etc."
+      tags:
+      - games
+      x-accepts: application/json
+  /games/{game_pk}/development-team:
+    get:
+      operationId: games_development-team_list
+      parameters:
+      - in: path
+        name: game_pk
+        required: true
+        schema:
+          type: string
+      - description: Which field to use when ordering the results.
+        in: query
+        name: ordering
+        schema:
+          type: string
+      - description: A page number within the paginated result set.
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Number of results to return per page.
+        in: query
+        name: page_size
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/games_development_team_list_200_response'
+          description: ""
+      summary: Get a list of individual creators that were part of the development
+        team.
+      tags:
+      - games
+      x-accepts: application/json
+  /games/{game_pk}/game-series:
+    get:
+      operationId: games_game-series_list
+      parameters:
+      - in: path
+        name: game_pk
+        required: true
+        schema:
+          type: string
+      - description: A page number within the paginated result set.
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Number of results to return per page.
+        in: query
+        name: page_size
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/games_list_200_response'
+          description: ""
+      summary: Get a list of games that are part of the same series.
+      tags:
+      - games
+      x-accepts: application/json
+  /games/{game_pk}/parent-games:
+    get:
+      operationId: games_parent-games_list
+      parameters:
+      - in: path
+        name: game_pk
+        required: true
+        schema:
+          type: string
+      - description: A page number within the paginated result set.
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Number of results to return per page.
+        in: query
+        name: page_size
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/games_list_200_response'
+          description: ""
+      summary: Get a list of parent games for DLC's and editions.
+      tags:
+      - games
+      x-accepts: application/json
+  /games/{game_pk}/screenshots:
+    get:
+      operationId: games_screenshots_list
+      parameters:
+      - in: path
+        name: game_pk
+        required: true
+        schema:
+          type: string
+      - description: Which field to use when ordering the results.
+        in: query
+        name: ordering
+        schema:
+          type: string
+      - description: A page number within the paginated result set.
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Number of results to return per page.
+        in: query
+        name: page_size
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/games_screenshots_list_200_response'
+          description: ""
+      summary: Get screenshots for the game.
+      tags:
+      - games
+      x-accepts: application/json
+  /games/{game_pk}/stores:
+    get:
+      operationId: games_stores_list
+      parameters:
+      - in: path
+        name: game_pk
+        required: true
+        schema:
+          type: string
+      - description: Which field to use when ordering the results.
+        in: query
+        name: ordering
+        schema:
+          type: string
+      - description: A page number within the paginated result set.
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Number of results to return per page.
+        in: query
+        name: page_size
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/games_stores_list_200_response'
+          description: ""
+      summary: Get links to the stores that sell the game.
+      tags:
+      - games
+      x-accepts: application/json
+  /games/{id}:
+    get:
+      operationId: games_read
+      parameters:
+      - description: An ID or a slug identifying this Game.
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameSingle'
+          description: ""
+      summary: Get details of the game.
+      tags:
+      - games
+      x-accepts: application/json
+  /games/{id}/achievements:
+    get:
+      operationId: games_achievements_read
+      parameters:
+      - description: An ID or a slug identifying this Game.
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParentAchievement'
+          description: ""
+      summary: Get a list of game achievements.
+      tags:
+      - games
+      x-accepts: application/json
+  /games/{id}/movies:
+    get:
+      operationId: games_movies_read
+      parameters:
+      - description: An ID or a slug identifying this Game.
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+          description: ""
+      summary: Get a list of game trailers.
+      tags:
+      - games
+      x-accepts: application/json
+  /games/{id}/reddit:
+    get:
+      operationId: games_reddit_read
+      parameters:
+      - description: An ID or a slug identifying this Game.
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reddit'
+          description: ""
+      summary: Get a list of most recent posts from the game's subreddit.
+      tags:
+      - games
+      x-accepts: application/json
+  /games/{id}/suggested:
+    get:
+      operationId: games_suggested_read
+      parameters:
+      - description: An ID or a slug identifying this Game.
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameSingle'
+          description: ""
+      summary: "Get a list of visually similar games, available only for business\
+        \ and enterprise API users."
+      tags:
+      - games
+      x-accepts: application/json
+  /games/{id}/twitch:
+    get:
+      operationId: games_twitch_read
+      parameters:
+      - description: An ID or a slug identifying this Game.
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Twitch'
+          description: ""
+      summary: "Get streams on Twitch associated with the game, available only for\
+        \ business and enterprise API users."
+      tags:
+      - games
+      x-accepts: application/json
+  /games/{id}/youtube:
+    get:
+      operationId: games_youtube_read
+      parameters:
+      - description: An ID or a slug identifying this Game.
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Youtube'
+          description: ""
+      summary: "Get videos from YouTube associated with the game, available only for\
+        \ business and enterprise API users."
+      tags:
+      - games
+      x-accepts: application/json
+  /genres:
+    get:
+      operationId: genres_list
+      parameters:
+      - description: Which field to use when ordering the results.
+        in: query
+        name: ordering
+        schema:
+          type: string
+      - description: A page number within the paginated result set.
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Number of results to return per page.
+        in: query
+        name: page_size
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/genres_list_200_response'
+          description: ""
+      summary: Get a list of video game genres.
+      tags:
+      - genres
+      x-accepts: application/json
+  /genres/{id}:
+    get:
+      operationId: genres_read
+      parameters:
+      - description: A unique integer value identifying this Genre.
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenreSingle'
+          description: ""
+      summary: Get details of the genre.
+      tags:
+      - genres
+      x-accepts: application/json
+  /platforms:
+    get:
+      operationId: platforms_list
+      parameters:
+      - description: Which field to use when ordering the results.
+        in: query
+        name: ordering
+        schema:
+          type: string
+      - description: A page number within the paginated result set.
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Number of results to return per page.
+        in: query
+        name: page_size
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/platforms_list_200_response'
+          description: ""
+      summary: Get a list of video game platforms.
+      tags:
+      - platforms
+      x-accepts: application/json
+  /platforms/lists/parents:
+    get:
+      description: "For instance, for PS2 and PS4 the “parent platform” is PlayStation."
+      operationId: platforms_lists_parents_list
+      parameters:
+      - description: Which field to use when ordering the results.
+        in: query
+        name: ordering
+        schema:
+          type: string
+      - description: A page number within the paginated result set.
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Number of results to return per page.
+        in: query
+        name: page_size
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/platforms_lists_parents_list_200_response'
+          description: ""
+      summary: Get a list of parent platforms.
+      tags:
+      - platforms
+      x-accepts: application/json
+  /platforms/{id}:
+    get:
+      operationId: platforms_read
+      parameters:
+      - description: A unique integer value identifying this Platform.
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlatformSingle'
+          description: ""
+      summary: Get details of the platform.
+      tags:
+      - platforms
+      x-accepts: application/json
+  /publishers:
+    get:
+      operationId: publishers_list
+      parameters:
+      - description: A page number within the paginated result set.
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Number of results to return per page.
+        in: query
+        name: page_size
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/publishers_list_200_response'
+          description: ""
+      summary: Get a list of video game publishers.
+      tags:
+      - publishers
+      x-accepts: application/json
+  /publishers/{id}:
+    get:
+      operationId: publishers_read
+      parameters:
+      - description: A unique integer value identifying this Publisher.
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublisherSingle'
+          description: ""
+      summary: Get details of the publisher.
+      tags:
+      - publishers
+      x-accepts: application/json
+  /stores:
+    get:
+      operationId: stores_list
+      parameters:
+      - description: Which field to use when ordering the results.
+        in: query
+        name: ordering
+        schema:
+          type: string
+      - description: A page number within the paginated result set.
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Number of results to return per page.
+        in: query
+        name: page_size
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/stores_list_200_response'
+          description: ""
+      summary: Get a list of video game storefronts.
+      tags:
+      - stores
+      x-accepts: application/json
+  /stores/{id}:
+    get:
+      operationId: stores_read
+      parameters:
+      - description: A unique integer value identifying this Store.
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StoreSingle'
+          description: ""
+      summary: Get details of the store.
+      tags:
+      - stores
+      x-accepts: application/json
+  /tags:
+    get:
+      operationId: tags_list
+      parameters:
+      - description: A page number within the paginated result set.
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Number of results to return per page.
+        in: query
+        name: page_size
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tags_list_200_response'
+          description: ""
+      summary: Get a list of tags.
+      tags:
+      - tags
+      x-accepts: application/json
+  /tags/{id}:
+    get:
+      operationId: tags_read
+      parameters:
+      - description: A unique integer value identifying this Tag.
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagSingle'
+          description: ""
+      summary: Get details of the tag.
+      tags:
+      - tags
+      x-accepts: application/json
+components:
+  schemas:
+    Position:
+      example:
+        name: name
+        id: 6
+        slug: slug
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        name:
+          minLength: 1
+          readOnly: true
+          title: Name
+          type: string
+        slug:
+          format: slug
+          minLength: 1
+          pattern: "^[-a-zA-Z0-9_]+$"
+          readOnly: true
+          title: Slug
+          type: string
+      type: object
+    Person:
+      example:
+        image: https://openapi-generator.tech
+        games_count: 1
+        name: name
+        id: 6
+        image_background: https://openapi-generator.tech
+        slug: slug
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        name:
+          minLength: 1
+          title: Name
+          type: string
+        slug:
+          format: slug
+          minLength: 1
+          pattern: "^[-a-zA-Z0-9_]+$"
+          readOnly: true
+          title: Slug
+          type: string
+        image:
+          format: uri
+          readOnly: true
+          title: Image
+          type: string
+        image_background:
+          format: uri
+          minLength: 1
+          readOnly: true
+          title: Image background
+          type: string
+        games_count:
+          readOnly: true
+          title: Games count
+          type: integer
+      required:
+      - name
+      type: object
+    PersonSingle:
+      example:
+        image: https://openapi-generator.tech
+        games_count: 6
+        rating_top: 5
+        name: name
+        rating: rating
+        description: description
+        id: 0
+        image_background: https://openapi-generator.tech
+        updated: 2000-01-23T04:56:07.000+00:00
+        slug: slug
+        reviews_count: 1
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        name:
+          minLength: 1
+          title: Name
+          type: string
+        slug:
+          format: slug
+          minLength: 1
+          pattern: "^[-a-zA-Z0-9_]+$"
+          readOnly: true
+          title: Slug
+          type: string
+        image:
+          format: uri
+          readOnly: true
+          title: Image
+          type: string
+        image_background:
+          format: uri
+          minLength: 1
+          readOnly: true
+          title: Image background
+          type: string
+        description:
+          minLength: 1
+          title: Description
+          type: string
+        games_count:
+          readOnly: true
+          title: Games count
+          type: integer
+        reviews_count:
+          readOnly: true
+          title: Reviews count
+          type: integer
+        rating:
+          format: decimal
+          readOnly: true
+          title: Rating
+          type: string
+        rating_top:
+          readOnly: true
+          title: Rating top
+          type: integer
+        updated:
+          format: date-time
+          readOnly: true
+          title: Updated
+          type: string
+      required:
+      - name
+      type: object
+    Developer:
+      example:
+        games_count: 1
+        name: name
+        id: 6
+        image_background: https://openapi-generator.tech
+        slug: slug
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        name:
+          maxLength: 100
+          minLength: 1
+          title: Name
+          type: string
+        slug:
+          format: slug
+          minLength: 1
+          pattern: "^[-a-zA-Z0-9_]+$"
+          readOnly: true
+          title: Slug
+          type: string
+        games_count:
+          readOnly: true
+          title: Games count
+          type: integer
+        image_background:
+          format: uri
+          minLength: 1
+          readOnly: true
+          title: Image background
+          type: string
+      required:
+      - name
+      type: object
+    DeveloperSingle:
+      example:
+        games_count: 6
+        name: name
+        description: description
+        id: 0
+        image_background: https://openapi-generator.tech
+        slug: slug
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        name:
+          maxLength: 100
+          minLength: 1
+          title: Name
+          type: string
+        slug:
+          format: slug
+          minLength: 1
+          pattern: "^[-a-zA-Z0-9_]+$"
+          readOnly: true
+          title: Slug
+          type: string
+        games_count:
+          readOnly: true
+          title: Games count
+          type: integer
+        image_background:
+          format: uri
+          minLength: 1
+          readOnly: true
+          title: Image background
+          type: string
+        description:
+          title: Description
+          type: string
+      required:
+      - name
+      type: object
+    Game:
+      example:
+        added: 2
+        suggestions_count: 3
+        rating: 1.4658129805029452
+        metacritic: 7
+        playtime: 9
+        platforms:
+        - requirements:
+            minimum: minimum
+            recommended: recommended
+          released_at: released_at
+          platform:
+            name: name
+            id: 4
+            slug: slug
+        - requirements:
+            minimum: minimum
+            recommended: recommended
+          released_at: released_at
+          platform:
+            name: name
+            id: 4
+            slug: slug
+        background_image: https://openapi-generator.tech
+        tba: true
+        esrb_rating:
+          name: Everyone
+          id: 2
+          slug: everyone
+        rating_top: 5
+        reviews_text_count: reviews_text_count
+        ratings: "{}"
+        name: name
+        id: 6
+        added_by_status: "{}"
+        ratings_count: 5
+        updated: 2000-01-23T04:56:07.000+00:00
+        slug: slug
+        released: 2000-01-23
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        slug:
+          format: slug
+          minLength: 1
+          pattern: "^[-a-zA-Z0-9_]+$"
+          readOnly: true
+          title: Slug
+          type: string
+        name:
+          minLength: 1
+          readOnly: true
+          title: Name
+          type: string
+        released:
+          format: date
+          readOnly: true
+          title: Released
+          type: string
+        tba:
+          readOnly: true
+          title: TBA
+          type: boolean
+        background_image:
+          format: uri
+          readOnly: true
+          title: Background image
+          type: string
+        rating:
+          title: Rating
+          type: number
+        rating_top:
+          readOnly: true
+          title: Rating top
+          type: integer
+        ratings:
+          properties: {}
+          readOnly: true
+          title: Ratings
+          type: object
+        ratings_count:
+          readOnly: true
+          title: Ratings count
+          type: integer
+        reviews_text_count:
+          readOnly: true
+          title: Reviews text count
+          type: string
+        added:
+          readOnly: true
+          title: Added
+          type: integer
+        added_by_status:
+          properties: {}
+          readOnly: true
+          title: Added by status
+          type: object
+        metacritic:
+          readOnly: true
+          title: Metacritic
+          type: integer
+        playtime:
+          description: in hours
+          readOnly: true
+          title: Playtime
+          type: integer
+        suggestions_count:
+          readOnly: true
+          title: Suggestions count
+          type: integer
+        updated:
+          format: date-time
+          readOnly: true
+          title: Updated
+          type: string
+        esrb_rating:
+          $ref: '#/components/schemas/Game_esrb_rating'
+        platforms:
+          items:
+            $ref: '#/components/schemas/Game_platforms_inner'
+          type: array
+      required:
+      - rating
+      type: object
+    GamePersonList:
+      example:
+        image: https://openapi-generator.tech
+        games_count: 1
+        name: name
+        id: 6
+        image_background: https://openapi-generator.tech
+        slug: slug
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        name:
+          minLength: 1
+          title: Name
+          type: string
+        slug:
+          format: slug
+          minLength: 1
+          pattern: "^[-a-zA-Z0-9_]+$"
+          readOnly: true
+          title: Slug
+          type: string
+        image:
+          format: uri
+          readOnly: true
+          title: Image
+          type: string
+        image_background:
+          format: uri
+          minLength: 1
+          readOnly: true
+          title: Image background
+          type: string
+        games_count:
+          readOnly: true
+          title: Games count
+          type: integer
+      required:
+      - name
+      type: object
+    ScreenShot:
+      example:
+        image: '@image.jpg'
+        hidden: false
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        image:
+          description: An image file with size up to 20 MB.
+          format: uri
+          readOnly: true
+          title: Image
+          type: string
+        hidden:
+          default: false
+          description: Set image as hidden or visible.
+          title: Hidden
+          type: boolean
+        width:
+          readOnly: true
+          title: Width
+          type: integer
+        height:
+          readOnly: true
+          title: Height
+          type: integer
+      type: object
+    GameStoreFull:
+      example:
+        store_id: store_id
+        id: 6
+        url: https://openapi-generator.tech
+        game_id: game_id
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        game_id:
+          readOnly: true
+          title: Game id
+          type: string
+        store_id:
+          readOnly: true
+          title: Store id
+          type: string
+        url:
+          format: uri
+          maxLength: 500
+          minLength: 1
+          title: Url
+          type: string
+      required:
+      - url
+      type: object
+    GamePlatformMetacritic:
+      example:
+        metascore: 1
+        url: url
+      properties:
+        metascore:
+          readOnly: true
+          title: Metascore
+          type: integer
+        url:
+          minLength: 1
+          readOnly: true
+          title: Url
+          type: string
+      type: object
+    GameSingle:
+      example:
+        added: 2
+        name_original: name_original
+        metacritic: 6
+        rating: 5.962133916683182
+        description: description
+        game_series_count: 7
+        playtime: 7
+        metacritic_url: metacritic_url
+        alternative_names:
+        - alternative_names
+        - alternative_names
+        parents_count: 1
+        platforms:
+        - requirements:
+            minimum: minimum
+            recommended: recommended
+          released_at: released_at
+          platform:
+            name: name
+            id: 4
+            slug: slug
+        - requirements:
+            minimum: minimum
+            recommended: recommended
+          released_at: released_at
+          platform:
+            name: name
+            id: 4
+            slug: slug
+        metacritic_platforms:
+        - metascore: 1
+          url: url
+        - metascore: 1
+          url: url
+        creators_count: 2
+        rating_top: 5
+        reviews_text_count: reviews_text_count
+        ratings: "{}"
+        achievements_count: 4
+        id: 0
+        added_by_status: "{}"
+        reddit_url: reddit_url
+        reddit_name: reddit_name
+        ratings_count: 1
+        reddit_count: 7
+        slug: slug
+        released: 2000-01-23
+        parent_achievements_count: parent_achievements_count
+        website: https://openapi-generator.tech
+        suggestions_count: 1
+        youtube_count: youtube_count
+        additions_count: 6
+        movies_count: 3
+        twitch_count: twitch_count
+        background_image_additional: background_image_additional
+        background_image: https://openapi-generator.tech
+        tba: true
+        esrb_rating:
+          name: Everyone
+          id: 2
+          slug: everyone
+        screenshots_count: 9
+        name: name
+        reddit_description: reddit_description
+        reactions: "{}"
+        reddit_logo: https://openapi-generator.tech
+        updated: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        slug:
+          format: slug
+          minLength: 1
+          pattern: "^[-a-zA-Z0-9_]+$"
+          readOnly: true
+          title: Slug
+          type: string
+        name:
+          minLength: 1
+          readOnly: true
+          title: Name
+          type: string
+        name_original:
+          minLength: 1
+          readOnly: true
+          title: Name original
+          type: string
+        description:
+          minLength: 1
+          readOnly: true
+          title: Description
+          type: string
+        metacritic:
+          readOnly: true
+          title: Metacritic
+          type: integer
+        metacritic_platforms:
+          items:
+            $ref: '#/components/schemas/GamePlatformMetacritic'
+          readOnly: true
+          type: array
+        released:
+          format: date
+          readOnly: true
+          title: Released
+          type: string
+        tba:
+          readOnly: true
+          title: TBA
+          type: boolean
+        updated:
+          format: date-time
+          readOnly: true
+          title: Updated
+          type: string
+        background_image:
+          format: uri
+          readOnly: true
+          title: Background image
+          type: string
+        background_image_additional:
+          readOnly: true
+          title: Background image additional
+          type: string
+        website:
+          format: uri
+          minLength: 1
+          readOnly: true
+          title: Website
+          type: string
+        rating:
+          title: Rating
+          type: number
+        rating_top:
+          readOnly: true
+          title: Rating top
+          type: integer
+        ratings:
+          properties: {}
+          readOnly: true
+          title: Ratings
+          type: object
+        reactions:
+          properties: {}
+          readOnly: true
+          title: Reactions
+          type: object
+        added:
+          readOnly: true
+          title: Added
+          type: integer
+        added_by_status:
+          properties: {}
+          readOnly: true
+          title: Added by status
+          type: object
+        playtime:
+          description: in hours
+          readOnly: true
+          title: Playtime
+          type: integer
+        screenshots_count:
+          readOnly: true
+          title: Screenshots count
+          type: integer
+        movies_count:
+          readOnly: true
+          title: Movies count
+          type: integer
+        creators_count:
+          readOnly: true
+          title: Creators count
+          type: integer
+        achievements_count:
+          readOnly: true
+          title: Achievements count
+          type: integer
+        parent_achievements_count:
+          readOnly: true
+          title: Parent achievements count
+          type: string
+        reddit_url:
+          description: For example "https://www.reddit.com/r/uncharted/" or "uncharted"
+          minLength: 1
+          readOnly: true
+          title: Reddit url
+          type: string
+        reddit_name:
+          minLength: 1
+          readOnly: true
+          title: Reddit name
+          type: string
+        reddit_description:
+          minLength: 1
+          readOnly: true
+          title: Reddit description
+          type: string
+        reddit_logo:
+          format: uri
+          minLength: 1
+          readOnly: true
+          title: Reddit logo
+          type: string
+        reddit_count:
+          readOnly: true
+          title: Reddit count
+          type: integer
+        twitch_count:
+          readOnly: true
+          title: Twitch count
+          type: string
+        youtube_count:
+          readOnly: true
+          title: Youtube count
+          type: string
+        reviews_text_count:
+          readOnly: true
+          title: Reviews text count
+          type: string
+        ratings_count:
+          readOnly: true
+          title: Ratings count
+          type: integer
+        suggestions_count:
+          readOnly: true
+          title: Suggestions count
+          type: integer
+        alternative_names:
+          items:
+            maxLength: 200
+            minLength: 1
+            title: Alternative names
+            type: string
+          readOnly: true
+          type: array
+        metacritic_url:
+          description: For example "http://www.metacritic.com/game/playstation-4/the-witcher-3-wild-hunt"
+          minLength: 1
+          readOnly: true
+          title: Metacritic url
+          type: string
+        parents_count:
+          readOnly: true
+          title: Parents count
+          type: integer
+        additions_count:
+          readOnly: true
+          title: Additions count
+          type: integer
+        game_series_count:
+          readOnly: true
+          title: Game series count
+          type: integer
+        esrb_rating:
+          $ref: '#/components/schemas/Game_esrb_rating'
+        platforms:
+          items:
+            $ref: '#/components/schemas/Game_platforms_inner'
+          type: array
+      required:
+      - rating
+      type: object
+    ParentAchievement:
+      example:
+        image: https://openapi-generator.tech
+        name: name
+        description: description
+        id: 0
+        percent: percent
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        name:
+          minLength: 1
+          readOnly: true
+          title: Name
+          type: string
+        description:
+          minLength: 1
+          readOnly: true
+          title: Description
+          type: string
+        image:
+          format: uri
+          readOnly: true
+          title: Image
+          type: string
+        percent:
+          format: decimal
+          readOnly: true
+          title: Percent
+          type: string
+      type: object
+    Movie:
+      example:
+        preview: https://openapi-generator.tech
+        data: "{}"
+        name: name
+        id: 0
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        name:
+          minLength: 1
+          readOnly: true
+          title: Name
+          type: string
+        preview:
+          format: uri
+          readOnly: true
+          title: Preview
+          type: string
+        data:
+          properties: {}
+          readOnly: true
+          title: Data
+          type: object
+      type: object
+    Reddit:
+      example:
+        image: https://openapi-generator.tech
+        created: 2000-01-23T04:56:07.000+00:00
+        name: name
+        id: 0
+        text: text
+        username_url: https://openapi-generator.tech
+        url: https://openapi-generator.tech
+        username: username
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        name:
+          minLength: 1
+          readOnly: true
+          title: Name
+          type: string
+        text:
+          minLength: 1
+          readOnly: true
+          title: Text
+          type: string
+        image:
+          format: uri
+          minLength: 1
+          readOnly: true
+          title: Image
+          type: string
+        url:
+          format: uri
+          minLength: 1
+          readOnly: true
+          title: Url
+          type: string
+        username:
+          minLength: 1
+          readOnly: true
+          title: Username
+          type: string
+        username_url:
+          format: uri
+          minLength: 1
+          readOnly: true
+          title: Username url
+          type: string
+        created:
+          format: date-time
+          readOnly: true
+          title: Created
+          type: string
+      type: object
+    Twitch:
+      example:
+        thumbnail: https://openapi-generator.tech
+        created: 2000-01-23T04:56:07.000+00:00
+        name: name
+        description: description
+        external_id: 6
+        language: language
+        id: 0
+        published: 2000-01-23T04:56:07.000+00:00
+        view_count: 1
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        external_id:
+          readOnly: true
+          title: External id
+          type: integer
+        name:
+          minLength: 1
+          readOnly: true
+          title: Name
+          type: string
+        description:
+          minLength: 1
+          readOnly: true
+          title: Description
+          type: string
+        created:
+          format: date-time
+          readOnly: true
+          title: Created
+          type: string
+        published:
+          format: date-time
+          readOnly: true
+          title: Published
+          type: string
+        thumbnail:
+          format: uri
+          minLength: 1
+          readOnly: true
+          title: Thumbnail
+          type: string
+        view_count:
+          readOnly: true
+          title: View count
+          type: integer
+        language:
+          minLength: 1
+          readOnly: true
+          title: Language
+          type: string
+      type: object
+    Youtube:
+      example:
+        channel_title: channel_title
+        like_count: 5
+        created: 2000-01-23T04:56:07.000+00:00
+        description: description
+        external_id: external_id
+        comments_count: 1
+        name: name
+        favorite_count: 2
+        id: 0
+        thumbnails: "{}"
+        channel_id: channel_id
+        view_count: 6
+        dislike_count: 5
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        external_id:
+          minLength: 1
+          readOnly: true
+          title: External id
+          type: string
+        channel_id:
+          minLength: 1
+          readOnly: true
+          title: Channel id
+          type: string
+        channel_title:
+          minLength: 1
+          readOnly: true
+          title: Channel title
+          type: string
+        name:
+          minLength: 1
+          readOnly: true
+          title: Name
+          type: string
+        description:
+          minLength: 1
+          readOnly: true
+          title: Description
+          type: string
+        created:
+          format: date-time
+          readOnly: true
+          title: Created
+          type: string
+        view_count:
+          readOnly: true
+          title: View count
+          type: integer
+        comments_count:
+          readOnly: true
+          title: Comments count
+          type: integer
+        like_count:
+          readOnly: true
+          title: Like count
+          type: integer
+        dislike_count:
+          readOnly: true
+          title: Dislike count
+          type: integer
+        favorite_count:
+          readOnly: true
+          title: Favorite count
+          type: integer
+        thumbnails:
+          properties: {}
+          readOnly: true
+          title: Thumbnails
+          type: object
+      type: object
+    Genre:
+      example:
+        games_count: 1
+        name: name
+        id: 6
+        image_background: https://openapi-generator.tech
+        slug: slug
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        name:
+          maxLength: 100
+          minLength: 1
+          title: Name
+          type: string
+        slug:
+          format: slug
+          minLength: 1
+          pattern: "^[-a-zA-Z0-9_]+$"
+          readOnly: true
+          title: Slug
+          type: string
+        games_count:
+          readOnly: true
+          title: Games count
+          type: integer
+        image_background:
+          format: uri
+          minLength: 1
+          readOnly: true
+          title: Image background
+          type: string
+      required:
+      - name
+      type: object
+    GenreSingle:
+      example:
+        games_count: 6
+        name: name
+        description: description
+        id: 0
+        image_background: https://openapi-generator.tech
+        slug: slug
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        name:
+          maxLength: 100
+          minLength: 1
+          title: Name
+          type: string
+        slug:
+          format: slug
+          minLength: 1
+          pattern: "^[-a-zA-Z0-9_]+$"
+          readOnly: true
+          title: Slug
+          type: string
+        games_count:
+          readOnly: true
+          title: Games count
+          type: integer
+        image_background:
+          format: uri
+          minLength: 1
+          readOnly: true
+          title: Image background
+          type: string
+        description:
+          title: Description
+          type: string
+      required:
+      - name
+      type: object
+    Platform:
+      example:
+        image: https://openapi-generator.tech
+        games_count: 1
+        year_start: 19536
+        year_end: 18471
+        name: name
+        id: 6
+        image_background: https://openapi-generator.tech
+        slug: slug
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        name:
+          maxLength: 100
+          minLength: 1
+          title: Name
+          type: string
+        slug:
+          format: slug
+          minLength: 1
+          pattern: "^[-a-zA-Z0-9_]+$"
+          readOnly: true
+          title: Slug
+          type: string
+        games_count:
+          readOnly: true
+          title: Games count
+          type: integer
+        image_background:
+          format: uri
+          readOnly: true
+          title: Image background
+          type: string
+        image:
+          format: uri
+          nullable: true
+          readOnly: true
+          title: Image
+          type: string
+        year_start:
+          maximum: 32767
+          minimum: 0
+          nullable: true
+          title: Year start
+          type: integer
+        year_end:
+          maximum: 32767
+          minimum: 0
+          nullable: true
+          title: Year end
+          type: integer
+      required:
+      - name
+      type: object
+    PlatformParentSingle:
+      example:
+        name: name
+        id: 6
+        slug: slug
+        platforms:
+        - image: https://openapi-generator.tech
+          games_count: 1
+          year_start: 19536
+          year_end: 18471
+          name: name
+          id: 6
+          image_background: https://openapi-generator.tech
+          slug: slug
+        - image: https://openapi-generator.tech
+          games_count: 1
+          year_start: 19536
+          year_end: 18471
+          name: name
+          id: 6
+          image_background: https://openapi-generator.tech
+          slug: slug
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        name:
+          maxLength: 100
+          minLength: 1
+          title: Name
+          type: string
+        slug:
+          format: slug
+          minLength: 1
+          pattern: "^[-a-zA-Z0-9_]+$"
+          readOnly: true
+          title: Slug
+          type: string
+        platforms:
+          items:
+            $ref: '#/components/schemas/Platform'
+          type: array
+      required:
+      - name
+      - platforms
+      type: object
+    PlatformSingle:
+      example:
+        image: https://openapi-generator.tech
+        games_count: 6
+        year_start: 4803
+        year_end: 19536
+        name: name
+        description: description
+        id: 0
+        image_background: https://openapi-generator.tech
+        slug: slug
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        name:
+          maxLength: 100
+          minLength: 1
+          title: Name
+          type: string
+        slug:
+          format: slug
+          minLength: 1
+          pattern: "^[-a-zA-Z0-9_]+$"
+          readOnly: true
+          title: Slug
+          type: string
+        games_count:
+          readOnly: true
+          title: Games count
+          type: integer
+        image_background:
+          format: uri
+          readOnly: true
+          title: Image background
+          type: string
+        description:
+          title: Description
+          type: string
+        image:
+          format: uri
+          nullable: true
+          readOnly: true
+          title: Image
+          type: string
+        year_start:
+          maximum: 32767
+          minimum: 0
+          nullable: true
+          title: Year start
+          type: integer
+        year_end:
+          maximum: 32767
+          minimum: 0
+          nullable: true
+          title: Year end
+          type: integer
+      required:
+      - name
+      type: object
+    Publisher:
+      example:
+        games_count: 1
+        name: name
+        id: 6
+        image_background: https://openapi-generator.tech
+        slug: slug
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        name:
+          maxLength: 100
+          minLength: 1
+          title: Name
+          type: string
+        slug:
+          format: slug
+          minLength: 1
+          pattern: "^[-a-zA-Z0-9_]+$"
+          readOnly: true
+          title: Slug
+          type: string
+        games_count:
+          readOnly: true
+          title: Games count
+          type: integer
+        image_background:
+          format: uri
+          minLength: 1
+          readOnly: true
+          title: Image background
+          type: string
+      required:
+      - name
+      type: object
+    PublisherSingle:
+      example:
+        games_count: 6
+        name: name
+        description: description
+        id: 0
+        image_background: https://openapi-generator.tech
+        slug: slug
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        name:
+          maxLength: 100
+          minLength: 1
+          title: Name
+          type: string
+        slug:
+          format: slug
+          minLength: 1
+          pattern: "^[-a-zA-Z0-9_]+$"
+          readOnly: true
+          title: Slug
+          type: string
+        games_count:
+          readOnly: true
+          title: Games count
+          type: integer
+        image_background:
+          format: uri
+          minLength: 1
+          readOnly: true
+          title: Image background
+          type: string
+        description:
+          title: Description
+          type: string
+      required:
+      - name
+      type: object
+    Store:
+      example:
+        games_count: 1
+        domain: domain
+        name: name
+        id: 6
+        image_background: https://openapi-generator.tech
+        slug: slug
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        name:
+          maxLength: 100
+          minLength: 1
+          title: Name
+          type: string
+        domain:
+          maxLength: 255
+          nullable: true
+          title: Domain
+          type: string
+        slug:
+          format: slug
+          minLength: 1
+          pattern: "^[-a-zA-Z0-9_]+$"
+          readOnly: true
+          title: Slug
+          type: string
+        games_count:
+          readOnly: true
+          title: Games count
+          type: integer
+        image_background:
+          format: uri
+          minLength: 1
+          readOnly: true
+          title: Image background
+          type: string
+      required:
+      - name
+      type: object
+    StoreSingle:
+      example:
+        games_count: 6
+        domain: domain
+        name: name
+        description: description
+        id: 0
+        image_background: https://openapi-generator.tech
+        slug: slug
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        name:
+          maxLength: 100
+          minLength: 1
+          title: Name
+          type: string
+        domain:
+          maxLength: 255
+          nullable: true
+          title: Domain
+          type: string
+        slug:
+          format: slug
+          minLength: 1
+          pattern: "^[-a-zA-Z0-9_]+$"
+          readOnly: true
+          title: Slug
+          type: string
+        games_count:
+          readOnly: true
+          title: Games count
+          type: integer
+        image_background:
+          format: uri
+          minLength: 1
+          readOnly: true
+          title: Image background
+          type: string
+        description:
+          title: Description
+          type: string
+      required:
+      - name
+      type: object
+    Tag:
+      example:
+        games_count: 1
+        name: name
+        language: language
+        id: 6
+        image_background: https://openapi-generator.tech
+        slug: slug
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        name:
+          maxLength: 100
+          minLength: 1
+          title: Name
+          type: string
+        slug:
+          format: slug
+          minLength: 1
+          pattern: "^[-a-zA-Z0-9_]+$"
+          readOnly: true
+          title: Slug
+          type: string
+        games_count:
+          readOnly: true
+          title: Games count
+          type: integer
+        image_background:
+          format: uri
+          minLength: 1
+          readOnly: true
+          title: Image background
+          type: string
+        language:
+          minLength: 1
+          readOnly: true
+          title: Language
+          type: string
+      required:
+      - name
+      type: object
+    TagSingle:
+      example:
+        games_count: 6
+        name: name
+        description: description
+        id: 0
+        image_background: https://openapi-generator.tech
+        slug: slug
+      properties:
+        id:
+          readOnly: true
+          title: ID
+          type: integer
+        name:
+          maxLength: 100
+          minLength: 1
+          title: Name
+          type: string
+        slug:
+          format: slug
+          minLength: 1
+          pattern: "^[-a-zA-Z0-9_]+$"
+          readOnly: true
+          title: Slug
+          type: string
+        games_count:
+          readOnly: true
+          title: Games count
+          type: integer
+        image_background:
+          format: uri
+          minLength: 1
+          readOnly: true
+          title: Image background
+          type: string
+        description:
+          title: Description
+          type: string
+      required:
+      - name
+      type: object
+    creator_roles_list_200_response:
+      example:
+        next: https://openapi-generator.tech
+        previous: https://openapi-generator.tech
+        count: 0
+        results:
+        - name: name
+          id: 6
+          slug: slug
+        - name: name
+          id: 6
+          slug: slug
+      properties:
+        count:
+          type: integer
+        next:
+          format: uri
+          nullable: true
+          type: string
+        previous:
+          format: uri
+          nullable: true
+          type: string
+        results:
+          items:
+            $ref: '#/components/schemas/Position'
+          type: array
+      required:
+      - count
+      - results
+      type: object
+    creators_list_200_response:
+      example:
+        next: https://openapi-generator.tech
+        previous: https://openapi-generator.tech
+        count: 0
+        results:
+        - image: https://openapi-generator.tech
+          games_count: 1
+          name: name
+          id: 6
+          image_background: https://openapi-generator.tech
+          slug: slug
+        - image: https://openapi-generator.tech
+          games_count: 1
+          name: name
+          id: 6
+          image_background: https://openapi-generator.tech
+          slug: slug
+      properties:
+        count:
+          type: integer
+        next:
+          format: uri
+          nullable: true
+          type: string
+        previous:
+          format: uri
+          nullable: true
+          type: string
+        results:
+          items:
+            $ref: '#/components/schemas/Person'
+          type: array
+      required:
+      - count
+      - results
+      type: object
+    developers_list_200_response:
+      example:
+        next: https://openapi-generator.tech
+        previous: https://openapi-generator.tech
+        count: 0
+        results:
+        - games_count: 1
+          name: name
+          id: 6
+          image_background: https://openapi-generator.tech
+          slug: slug
+        - games_count: 1
+          name: name
+          id: 6
+          image_background: https://openapi-generator.tech
+          slug: slug
+      properties:
+        count:
+          type: integer
+        next:
+          format: uri
+          nullable: true
+          type: string
+        previous:
+          format: uri
+          nullable: true
+          type: string
+        results:
+          items:
+            $ref: '#/components/schemas/Developer'
+          type: array
+      required:
+      - count
+      - results
+      type: object
+    games_list_200_response:
+      example:
+        next: https://openapi-generator.tech
+        previous: https://openapi-generator.tech
+        count: 0
+        results:
+        - added: 2
+          suggestions_count: 3
+          rating: 1.4658129805029452
+          metacritic: 7
+          playtime: 9
+          platforms:
+          - requirements:
+              minimum: minimum
+              recommended: recommended
+            released_at: released_at
+            platform:
+              name: name
+              id: 4
+              slug: slug
+          - requirements:
+              minimum: minimum
+              recommended: recommended
+            released_at: released_at
+            platform:
+              name: name
+              id: 4
+              slug: slug
+          background_image: https://openapi-generator.tech
+          tba: true
+          esrb_rating:
+            name: Everyone
+            id: 2
+            slug: everyone
+          rating_top: 5
+          reviews_text_count: reviews_text_count
+          ratings: "{}"
+          name: name
+          id: 6
+          added_by_status: "{}"
+          ratings_count: 5
+          updated: 2000-01-23T04:56:07.000+00:00
+          slug: slug
+          released: 2000-01-23
+        - added: 2
+          suggestions_count: 3
+          rating: 1.4658129805029452
+          metacritic: 7
+          playtime: 9
+          platforms:
+          - requirements:
+              minimum: minimum
+              recommended: recommended
+            released_at: released_at
+            platform:
+              name: name
+              id: 4
+              slug: slug
+          - requirements:
+              minimum: minimum
+              recommended: recommended
+            released_at: released_at
+            platform:
+              name: name
+              id: 4
+              slug: slug
+          background_image: https://openapi-generator.tech
+          tba: true
+          esrb_rating:
+            name: Everyone
+            id: 2
+            slug: everyone
+          rating_top: 5
+          reviews_text_count: reviews_text_count
+          ratings: "{}"
+          name: name
+          id: 6
+          added_by_status: "{}"
+          ratings_count: 5
+          updated: 2000-01-23T04:56:07.000+00:00
+          slug: slug
+          released: 2000-01-23
+      properties:
+        count:
+          type: integer
+        next:
+          format: uri
+          nullable: true
+          type: string
+        previous:
+          format: uri
+          nullable: true
+          type: string
+        results:
+          items:
+            $ref: '#/components/schemas/Game'
+          type: array
+      required:
+      - count
+      - results
+      type: object
+    games_development_team_list_200_response:
+      example:
+        next: https://openapi-generator.tech
+        previous: https://openapi-generator.tech
+        count: 0
+        results:
+        - image: https://openapi-generator.tech
+          games_count: 1
+          name: name
+          id: 6
+          image_background: https://openapi-generator.tech
+          slug: slug
+        - image: https://openapi-generator.tech
+          games_count: 1
+          name: name
+          id: 6
+          image_background: https://openapi-generator.tech
+          slug: slug
+      properties:
+        count:
+          type: integer
+        next:
+          format: uri
+          nullable: true
+          type: string
+        previous:
+          format: uri
+          nullable: true
+          type: string
+        results:
+          items:
+            $ref: '#/components/schemas/GamePersonList'
+          type: array
+      required:
+      - count
+      - results
+      type: object
+    games_screenshots_list_200_response:
+      example:
+        next: https://openapi-generator.tech
+        previous: https://openapi-generator.tech
+        count: 0
+        results:
+        - image: '@image.jpg'
+          hidden: false
+        - image: '@image.jpg'
+          hidden: false
+      properties:
+        count:
+          type: integer
+        next:
+          format: uri
+          nullable: true
+          type: string
+        previous:
+          format: uri
+          nullable: true
+          type: string
+        results:
+          items:
+            $ref: '#/components/schemas/ScreenShot'
+          type: array
+      required:
+      - count
+      - results
+      type: object
+    games_stores_list_200_response:
+      example:
+        next: https://openapi-generator.tech
+        previous: https://openapi-generator.tech
+        count: 0
+        results:
+        - store_id: store_id
+          id: 6
+          url: https://openapi-generator.tech
+          game_id: game_id
+        - store_id: store_id
+          id: 6
+          url: https://openapi-generator.tech
+          game_id: game_id
+      properties:
+        count:
+          type: integer
+        next:
+          format: uri
+          nullable: true
+          type: string
+        previous:
+          format: uri
+          nullable: true
+          type: string
+        results:
+          items:
+            $ref: '#/components/schemas/GameStoreFull'
+          type: array
+      required:
+      - count
+      - results
+      type: object
+    genres_list_200_response:
+      example:
+        next: https://openapi-generator.tech
+        previous: https://openapi-generator.tech
+        count: 0
+        results:
+        - games_count: 1
+          name: name
+          id: 6
+          image_background: https://openapi-generator.tech
+          slug: slug
+        - games_count: 1
+          name: name
+          id: 6
+          image_background: https://openapi-generator.tech
+          slug: slug
+      properties:
+        count:
+          type: integer
+        next:
+          format: uri
+          nullable: true
+          type: string
+        previous:
+          format: uri
+          nullable: true
+          type: string
+        results:
+          items:
+            $ref: '#/components/schemas/Genre'
+          type: array
+      required:
+      - count
+      - results
+      type: object
+    platforms_list_200_response:
+      example:
+        next: https://openapi-generator.tech
+        previous: https://openapi-generator.tech
+        count: 0
+        results:
+        - image: https://openapi-generator.tech
+          games_count: 1
+          year_start: 19536
+          year_end: 18471
+          name: name
+          id: 6
+          image_background: https://openapi-generator.tech
+          slug: slug
+        - image: https://openapi-generator.tech
+          games_count: 1
+          year_start: 19536
+          year_end: 18471
+          name: name
+          id: 6
+          image_background: https://openapi-generator.tech
+          slug: slug
+      properties:
+        count:
+          type: integer
+        next:
+          format: uri
+          nullable: true
+          type: string
+        previous:
+          format: uri
+          nullable: true
+          type: string
+        results:
+          items:
+            $ref: '#/components/schemas/Platform'
+          type: array
+      required:
+      - count
+      - results
+      type: object
+    platforms_lists_parents_list_200_response:
+      example:
+        next: https://openapi-generator.tech
+        previous: https://openapi-generator.tech
+        count: 0
+        results:
+        - name: name
+          id: 6
+          slug: slug
+          platforms:
+          - image: https://openapi-generator.tech
+            games_count: 1
+            year_start: 19536
+            year_end: 18471
+            name: name
+            id: 6
+            image_background: https://openapi-generator.tech
+            slug: slug
+          - image: https://openapi-generator.tech
+            games_count: 1
+            year_start: 19536
+            year_end: 18471
+            name: name
+            id: 6
+            image_background: https://openapi-generator.tech
+            slug: slug
+        - name: name
+          id: 6
+          slug: slug
+          platforms:
+          - image: https://openapi-generator.tech
+            games_count: 1
+            year_start: 19536
+            year_end: 18471
+            name: name
+            id: 6
+            image_background: https://openapi-generator.tech
+            slug: slug
+          - image: https://openapi-generator.tech
+            games_count: 1
+            year_start: 19536
+            year_end: 18471
+            name: name
+            id: 6
+            image_background: https://openapi-generator.tech
+            slug: slug
+      properties:
+        count:
+          type: integer
+        next:
+          format: uri
+          nullable: true
+          type: string
+        previous:
+          format: uri
+          nullable: true
+          type: string
+        results:
+          items:
+            $ref: '#/components/schemas/PlatformParentSingle'
+          type: array
+      required:
+      - count
+      - results
+      type: object
+    publishers_list_200_response:
+      example:
+        next: https://openapi-generator.tech
+        previous: https://openapi-generator.tech
+        count: 0
+        results:
+        - games_count: 1
+          name: name
+          id: 6
+          image_background: https://openapi-generator.tech
+          slug: slug
+        - games_count: 1
+          name: name
+          id: 6
+          image_background: https://openapi-generator.tech
+          slug: slug
+      properties:
+        count:
+          type: integer
+        next:
+          format: uri
+          nullable: true
+          type: string
+        previous:
+          format: uri
+          nullable: true
+          type: string
+        results:
+          items:
+            $ref: '#/components/schemas/Publisher'
+          type: array
+      required:
+      - count
+      - results
+      type: object
+    stores_list_200_response:
+      example:
+        next: https://openapi-generator.tech
+        previous: https://openapi-generator.tech
+        count: 0
+        results:
+        - games_count: 1
+          domain: domain
+          name: name
+          id: 6
+          image_background: https://openapi-generator.tech
+          slug: slug
+        - games_count: 1
+          domain: domain
+          name: name
+          id: 6
+          image_background: https://openapi-generator.tech
+          slug: slug
+      properties:
+        count:
+          type: integer
+        next:
+          format: uri
+          nullable: true
+          type: string
+        previous:
+          format: uri
+          nullable: true
+          type: string
+        results:
+          items:
+            $ref: '#/components/schemas/Store'
+          type: array
+      required:
+      - count
+      - results
+      type: object
+    tags_list_200_response:
+      example:
+        next: https://openapi-generator.tech
+        previous: https://openapi-generator.tech
+        count: 0
+        results:
+        - games_count: 1
+          name: name
+          language: language
+          id: 6
+          image_background: https://openapi-generator.tech
+          slug: slug
+        - games_count: 1
+          name: name
+          language: language
+          id: 6
+          image_background: https://openapi-generator.tech
+          slug: slug
+      properties:
+        count:
+          type: integer
+        next:
+          format: uri
+          nullable: true
+          type: string
+        previous:
+          format: uri
+          nullable: true
+          type: string
+        results:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
+      required:
+      - count
+      - results
+      type: object
+    Game_esrb_rating:
+      example:
+        name: Everyone
+        id: 2
+        slug: everyone
+      nullable: true
+      properties:
+        id:
+          type: integer
+        slug:
+          enum:
+          - everyone
+          - everyone-10-plus
+          - teen
+          - mature
+          - adults-only
+          - rating-pending
+          type: string
+        name:
+          enum:
+          - Everyone
+          - Everyone 10+
+          - Teen
+          - Mature
+          - Adults Only
+          - Rating Pending
+          type: string
+      type: object
+    Game_platforms_inner_platform:
+      example:
+        name: name
+        id: 4
+        slug: slug
+      properties:
+        id:
+          type: integer
+        slug:
+          type: string
+        name:
+          type: string
+      type: object
+    Game_platforms_inner_requirements:
+      example:
+        minimum: minimum
+        recommended: recommended
+      nullable: true
+      properties:
+        minimum:
+          type: string
+        recommended:
+          type: string
+      type: object
+    Game_platforms_inner:
+      example:
+        requirements:
+          minimum: minimum
+          recommended: recommended
+        released_at: released_at
+        platform:
+          name: name
+          id: 4
+          slug: slug
+      properties:
+        platform:
+          $ref: '#/components/schemas/Game_platforms_inner_platform'
+        released_at:
+          nullable: true
+          type: string
+        requirements:
+          $ref: '#/components/schemas/Game_platforms_inner_requirements'
+      type: object
+x-original-swagger-version: "2.0"
+
